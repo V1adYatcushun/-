@@ -1,0 +1,112 @@
+using namespace std;
+include<iostream>
+include<string>
+include<vector>
+namespace ConsoleApp1
+{
+  // Базовий клас Student, містить інформацію про студента
+  public class Student
+  {
+    // 1. Поля класу - оголошені як protected - видимі в похідних класах,
+    // і невидимі з екземпляру класу
+    protected string name; // Прізвище й ім'я студента
+    protected int course; // Курс навчання
+    protected string gradeBook; // Номер залікової книги
+
+    // 2. Конструктор класу з 3 параметрами
+    public Student(string Name, int course, string gradeBook)
+    {
+      this.Name = Name;
+      this.course = course;
+      this.gradeBook = gradeBook;
+    }
+
+    // 3. Властивості доступу до полів класу
+    public string Name
+    {
+      get { return name; }
+      set { name = value; }
+    }
+
+    public int Course
+    {
+      get { return course; }
+      set { course = value; }
+    }
+
+    public string GradeBook
+    {
+      get { return gradeBook; }
+      set { gradeBook = value; }
+    }
+
+    // 4. Метод Print() - вивести значення полів на екран
+    public void Print()
+    {
+      WriteLine("The values of fields are:");
+      WriteLine($"Name = {name}");
+      WriteLine($"Course = {course}");
+      WriteLine($"GradeBook = {gradeBook}");
+    }
+  }
+
+  // Клас Aspirant - успадковує можливості класу Student
+  public class Aspirant : Student
+  {
+    // 1. Внутрішнє поле класу
+    protected string topic; // Тема кандидатської дисертації
+
+    // 2. Конструктор класу Aspirant - за допомогою ключового слова base звертається
+    // до конструктора базового класу Student
+    public Aspirant(string name, int course, string gradeBook, string topic) :
+    base(name, course, gradeBook)
+    {
+      // Можна змінювати protected-члени базового класу
+      base.name = name; // доступ до поля name класу Student за допомогою base
+      this.course = course; // доступ до поля course класу Student за допомогою this
+      this.gradeBook = gradeBook;
+
+      this.topic = topic; // ініціалізація внутрішнього поля класу Aspirant
+    }
+
+    // 3. Властивість для доступу до поля topic
+    public string Topic
+    {
+      get { return topic; }
+      set { topic = value; }
+    }
+
+    // 4. Метод Print() - друк полів класу Aspirant
+    // Ім'я даного методу перекриває ім'я методу Student.Print(),
+    // тому перед іменем методу вказується new
+    public new void Print() // new - перевизначення методу базового класу
+    {
+      base.Print(); // викликати метод Print() базового класу
+      WriteLine($"Topic = {topic}");
+    }
+  }
+
+  class Program
+  {
+    static void Main(string[] args)
+    {
+      // Демонстрація роботи з класами Student і Aspirant
+
+      // 1. Оголосити екземпляр класу Student
+      Student st1 = new Student("Ivanov I.I.", 2, "0519");
+
+      // 2. Вивести поля класу Student
+      WriteLine("The instance of st1:");
+      st1.Print();
+
+      // 3. Оголосити екземпляр класу Aspirant
+      // При оголошенні використовується властивість get екземпляра st1
+      Aspirant asp1 = new Aspirant(st1.Name, st1.Course, st1.GradeBook, "Hello world!");
+
+      // 4. Викликати метод Print() екземпляра asp1
+      WriteLine("---------------------");
+      WriteLine("The instance of asp1:");
+      asp1.Print();
+    }
+  }
+}
